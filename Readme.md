@@ -1,6 +1,7 @@
-**\* important question for commerce students
-** Routes
+#important question for commerce students
+
+## Routes
 
 -   /admin [POST]
 
-\*\*\* "npm run start" for nodemon
+### "npm run start" for nodemon
