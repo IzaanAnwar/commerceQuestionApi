@@ -16,25 +16,14 @@ exports.queryDataWithSemAndSub = async (semesterRec, subjectRec) => {
 
     return result;
 };
-exports.queryDataWithSubAndQuestion = async (subjectRec, questionRec) => {
+exports.queryDataWithQuestion = async (questionRec) => {
     const result = await semesterData.find({
-        'subjectData.subjectName': subjectRec,
         'subjectData.questionBank.question': questionRec,
     });
     return result;
 };
-exports.queryDataWithSubAndAnswer = async (subjectRec, answerRec) => {
+exports.queryDataWithAnswer = async (answerRec) => {
     const result = await semesterData.find({
-        'subjectData.subjectName': subjectRec,
-        'subjectData.questionBank.answer': answerRec,
-    });
-    return result;
-};
-
-exports.queryDataWithSemSubAns = async (semesterRec, subjectRec, answerRec) => {
-    const result = await semesterData.find({
-        semseter: semesterRec,
-        'subjectData.subjectName': subjectRec,
         'subjectData.questionBank.answer': answerRec,
     });
     return result;

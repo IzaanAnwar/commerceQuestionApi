@@ -12,8 +12,10 @@ exports.postNewQuestionData = async (req, res) => {
         semesterRecieved,
         subject,
     );
-    console.log(dataInSemesterInSub); // ====================log data queried
+
+    console.log(dataInSemesterInSub, 'here'); // ====================log data queried
     if (dataInSemesterInSub.length === 0) {
+        console.log('shoud not enter here');
         const newQuestionBank = new semesterData({
             semester: semesterRecieved,
             subjectData: {
@@ -37,9 +39,36 @@ exports.postNewQuestionData = async (req, res) => {
             }
         });
     } else {
-        console.log('here');
+        console.log('heresdfsdf');
 
-        const insertResult = await semesterData.updateMany(
+        const questionsInSemester = await queryDB.queryDataWithQuestion(
+            questionRecieved,
+        );
+
+        for (let i = 0; i < questionsInSemester.length; i++) {
+            console.log(
+                '====> ' + questionsInSemester.length,
+                questionsInSemester[i],
+                i + '<=======',
+            );
+
+            if (
+                questionsInSemester[i].semester === semesterRecieved &&
+                questionsInSemester[i].subjectData.subjectName === subject
+            ) {
+                console.log('in');
+
+                res.status(400).json({
+                    message: 'data already exists',
+                });
+            }
+            console.log('out');
+
+            return;
+        }
+        console.log('2');
+
+        const addQuestion = await semesterData.updateOne(
             {
                 $and: [
                     {
@@ -49,22 +78,24 @@ exports.postNewQuestionData = async (req, res) => {
                 ],
             },
             {
-                $set: {
-                    'subjectData.questionBank.question': questionRecieved,
-
-                    // 'subjectData.questionBank.$.answer': answerRecieved,
+                $addToSet: {
+                    'subjectData.questionBank': {
+                        question: questionRecieved,
+                        answer: answerRecieved,
+                    },
                 },
             },
-            { upsert: false },
         );
-
-        console.log(insertResult);
-        res.status(404).json({
-            message: {
-                acknowledged: insertResult.acknowledged,
-            },
-
-            insertResult,
+        if (!addQuestion.acknowledged) {
+            res.status(404).json({
+                response: addQuestion.acknowledged,
+                message: 'failed to add to database',
+            });
+            return;
+        }
+        res.status(201).json({
+            response: addQuestion.acknowledged,
+            message: 'succesfully added to database',
         });
         return;
     }

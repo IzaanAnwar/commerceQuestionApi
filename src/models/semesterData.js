@@ -16,10 +16,12 @@ const AnswerSchema = new mongoose.Schema({
 
 const SubjectSchema = new mongoose.Schema({
     subjectName: { type: String, required: true },
-    questionBank: {
-        question: { type: String, required: true },
-        answer: AnswerSchema,
-    },
+    questionBank: [
+        {
+            question: { type: String, required: true },
+            answer: AnswerSchema,
+        },
+    ],
 });
 
 const SemesterSchema = new mongoose.Schema({
