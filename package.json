@@ -1,29 +1,38 @@
 {
+    "scripts": {
+        "start": "node ./dist/server.js",
+        "dev": "nodemon ./src/server.ts",
+        "build": "tsc -p ."
+    },
+    "author": "izaan",
+    "license": "ISC",
     "dependencies": {
+        "@typegoose/typegoose": "^9.10.1",
         "body-parser": "^1.20.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.1",
         "express": "^4.18.1",
-        "mongoose": "^6.4.4"
+        "mongoose": "^6.4.4",
+        "ts-node": "^10.9.1"
     },
     "name": "server",
     "version": "1.0.0",
     "description": "website to post important exam questions",
     "main": "server.js",
     "devDependencies": {
-        "eslint": "^8.19.0",
-        "eslint-config-airbnb-base": "^15.0.0",
+        "@types/body-parser": "^1.19.2",
+        "@types/cors": "^2.8.12",
+        "@types/dotenv": "^8.2.0",
+        "@types/express": "^4.17.13",
+        "@types/node": "^18.0.6",
+        "@typescript-eslint/eslint-plugin": "^5.30.7",
+        "@typescript-eslint/parser": "^5.30.7",
+        "eslint": "^8.20.0",
         "eslint-config-node": "^4.1.0",
         "eslint-config-prettier": "^8.5.0",
-        "eslint-plugin-import": "^2.26.0",
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-prettier": "^4.2.1",
-        "prettier": "^2.7.1"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon src/server.js"
-    },
-    "author": "izaan",
-    "license": "ISC"
+        "prettier": "^2.7.1",
+        "typescript": "^4.7.4"
+    }
 }

@@ -1,29 +1,47 @@
-const semesterData = require('../models/semesterData');
+import { Request, Response } from 'express';
+// import { DocumentDefinition } from 'mongoose';
 
-const validateRecievedData = require('../validators/validateRecievedData');
+import semesterData, { Falana } from '../models/semesterData';
+import {
+    queryDataWithSemAndSub,
+    queryDataWithQuestion,
+} from '../services/queryDB';
 
-const queryDB = require('../services/queryDB');
+// LOGIC
 
-exports.postNewQuestionData = async (req, res) => {
-    const { semesterRecieved, subject, questionRecieved, answerRecieved } =
-        validateRecievedData(req, res);
+export async function postNewQuestionData(req: Request, res: Response) {
+    const {
+        semester: semesterRecieved,
+        subject,
+        question: questionRecieved,
+        answer: answerRecieved,
+    } = req.body;
 
-    const dataInSemesterInSub = await queryDB.queryDataWithSemAndSub(
+    if (!semesterRecieved || !subject || !questionRecieved || !answerRecieved) {
+        res.status(404).json({
+            message:
+                "Some Value is missing! check if you typed correct key {'question', 'answer', 'subject', 'semester'} or if you have not provided any value",
+        });
+
+        return;
+    }
+
+    const dataInSemesterInSub = await queryDataWithSemAndSub(
         semesterRecieved,
         subject,
     );
 
-    console.log(dataInSemesterInSub, 'here'); // ====================log data queried
     if (dataInSemesterInSub.length === 0) {
-        console.log('shoud not enter here');
         const newQuestionBank = new semesterData({
             semester: semesterRecieved,
             subjectData: {
                 subjectName: subject,
-                questionBank: {
-                    question: questionRecieved,
-                    answer: answerRecieved,
-                },
+                questionBank: [
+                    {
+                        question: questionRecieved,
+                        answer: answerRecieved,
+                    },
+                ],
             },
         });
 
@@ -39,33 +57,31 @@ exports.postNewQuestionData = async (req, res) => {
             }
         });
     } else {
-        console.log('heresdfsdf');
-
-        const questionsInSemester = await queryDB.queryDataWithQuestion(
+        const questionsInSemester: Array<Falana> = await queryDataWithQuestion(
             questionRecieved,
         );
-
-        for (let i = 0; i < questionsInSemester.length; i++) {
+        for (const semData of questionsInSemester) {
             console.log(
                 '====> ' + questionsInSemester.length,
-                questionsInSemester[i],
-                i + '<=======',
+                '####',
+                semData,
+                '####',
+                '<=======',
             );
 
             if (
-                questionsInSemester[i].semester === semesterRecieved &&
-                questionsInSemester[i].subjectData.subjectName === subject
+                semData?.semester === semesterRecieved &&
+                semData?.subjectData.subjectName === subject
             ) {
                 console.log('in');
 
                 res.status(400).json({
                     message: 'data already exists',
                 });
+                return;
             }
-            console.log('out');
-
-            return;
         }
+
         console.log('2');
 
         const addQuestion = await semesterData.updateOne(
@@ -97,6 +113,7 @@ exports.postNewQuestionData = async (req, res) => {
             response: addQuestion.acknowledged,
             message: 'succesfully added to database',
         });
+
         return;
     }
-};
+}
