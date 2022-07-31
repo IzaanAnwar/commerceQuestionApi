@@ -6,7 +6,7 @@ const connectToDB = async (databasePassword: string): Promise<void> => {
             `mongodb+srv://izaan:${databasePassword.replace(
                 '@',
                 '%40',
-            )}@cluster0.boms2em.mongodb.net/?retryWrites=true&w=majority`,
+            )}@cluster0.boms2em.mongodb.net/sem-data?retryWrites=true&w=majority`,
         );
         console.log('[CONNECTED_TO_DB]');
     } catch (error) {

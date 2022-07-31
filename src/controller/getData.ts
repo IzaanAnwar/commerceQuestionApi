@@ -22,11 +22,15 @@ const getAllQuestion = async (req: Request, res: Response) => {
 
 const getAnswerOfQuestion = async (req: Request, res: Response) => {
     const { question } = req.body;
+    console.log(question, req.body);
 
     const answerRecieved = await queryDataWithQuestion(question);
 
     if (answerRecieved.length === 0) {
-        res.status(404).send({ message: 'answer not found for this question' });
+        res.status(404).send({
+            message: 'answer not found for this question',
+            answerRecieved,
+        });
         return;
     }
     res.status(200).json(answerRecieved);

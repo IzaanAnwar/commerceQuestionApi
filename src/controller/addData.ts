@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 // import { DocumentDefinition } from 'mongoose';
 
-import semesterData, { Falana } from '../models/semesterData';
+import semesterData, { IData } from '../models/semesterData';
 import {
     queryDataWithSemAndSub,
     queryDataWithQuestion,
@@ -57,32 +57,21 @@ export async function postNewQuestionData(req: Request, res: Response) {
             }
         });
     } else {
-        const questionsInSemester: Array<Falana> = await queryDataWithQuestion(
+        /** QUERY WITH QUESTION AND IF THE SEM AND SUB MATCH RETURNS DATA EXISTS IF NOT APPEND THE QUESTION */
+        const questionsInSemester: Array<IData> = await queryDataWithQuestion(
             questionRecieved,
         );
         for (const semData of questionsInSemester) {
-            console.log(
-                '====> ' + questionsInSemester.length,
-                '####',
-                semData,
-                '####',
-                '<=======',
-            );
-
             if (
                 semData?.semester === semesterRecieved &&
-                semData?.subjectData.subjectName === subject
+                semData.subjectData?.subjectName === subject
             ) {
-                console.log('in');
-
                 res.status(400).json({
                     message: 'data already exists',
                 });
                 return;
             }
         }
-
-        console.log('2');
 
         const addQuestion = await semesterData.updateOne(
             {

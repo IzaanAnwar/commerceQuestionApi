@@ -23,6 +23,7 @@ const queryDataWithSemAndSub = async (
 const queryDataWithQuestion = async (
     questionRec: string,
 ): Promise<object[]> => {
+    console.log(questionRec);
     const result = await semesterData.find({
         'subjectData.questionBank.question': questionRec,
     });
