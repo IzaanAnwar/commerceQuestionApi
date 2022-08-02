@@ -1,7 +1,17 @@
-# important question for commerce students
+# IMPORTANT QUESTION FOR COMMERCE STUDENTS
 
 ## Routes
 
+**POST NEW DATA OR APPEND NEW DATA**
+
 -   /admin [POST]
 
-### "npm run start" for nodemon
+**GET ANS OF QUESTION**
+
+-   /admin/get-ans
+
+**GET ALL DATA OF GIVEN SEM ABD SUB**
+
+-   /admin/:sem/:sub
+
+### "npm run dev" for nodemon
