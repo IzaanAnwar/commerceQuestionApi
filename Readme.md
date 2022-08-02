@@ -9,9 +9,18 @@
 **GET ANS OF QUESTION**
 
 -   /admin/get-ans
+-   _send a body of json with a key "question"_
 
-**GET ALL DATA OF GIVEN SEM ABD SUB**
+**GET ALL QUESTION AND SOLUTION OF GIVEN SEMESTER AND SUBJECT**
 
--   /admin/:sem/:sub
+-   /admin/get-sol/:sem/:sub
 
-### "npm run dev" for nodemon
+**GET ALL SUBJECT IN A SEMESTER**
+
+-   /admin/get-sub/:sem
+
+### "npm run dev" for development [PORT::3100]
+
+### "npm run build" - IN ./DIST
+
+### npm run start for production
