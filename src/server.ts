@@ -17,9 +17,9 @@ app.use(cors());
 
 app.use('/admin', adminRoute);
 
-const PORT = process.env.PORT || 3100;
+const PORT = process.env.PORT ? process.env.PORT : 3100;
 
 app.listen(PORT, () => {
     connectToDB(process.env.MONGODB_PASSWORD as string);
-    console.log('[CONNECTED_TO_SERVER]::http://localhost:3100');
+    console.log(`[CONNECTED_TO_SERVER] -[PORT::${PORT}]`);
 });
