@@ -19,8 +19,8 @@
 
 -   /admin/get-sub/:sem
 
-# _"npm run dev" for development [PORT::3100]_
+**_"npm run dev" for development [PORT::3100]_**
 
-# _"npm run build" - IN ./DIST_
+**_"npm run build" - IN ./DIST_**
 
-# _npm run start for production_
+**_npm run start for production_**
